@@ -51,14 +51,10 @@ fi
 
 #############################################$
 # Replace environment LOGENTRIES_TOKEN
-envtpl /etc/syslog-ng/conf.d/logentries.conf
+envtpl /etc/syslog-ng/conf.d/logentries.conf.tpl
 
 ## run supervisord
 supervisord
-
-
-# Call parent entrypoint (CMD)
-/sbin/my_init
 
 chown www-data:www-data /var/www/html -R
 
@@ -72,3 +68,6 @@ fi
 source /etc/apache2/envvars
 tail -F /var/log/apache2/* &
 exec apache2 -D FOREGROUND
+
+# Call parent entrypoint (CMD)
+#/sbin/my_init

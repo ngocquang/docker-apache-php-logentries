@@ -10,6 +10,12 @@ ENV LC_ALL     en_US.UTF-8
 # Install base packages
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get -yq install \
+        vim \
+        wget \
+        build-essential \
+        python-software-properties \
+        python-pip \
+        supervisor \
         curl \
         apache2 \
         libapache2-mod-php5 \
@@ -21,6 +27,7 @@ RUN apt-get update && \
         php-apc && \
     rm -rf /var/lib/apt/lists/* && \
     curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
 RUN /usr/sbin/php5enmod mcrypt
 RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf && \
     sed -i "s/variables_order.*/variables_order = \"EGPCS\"/g" /etc/php5/apache2/php.ini
@@ -33,9 +40,6 @@ RUN sed -i 's/post_max_size\ =\ 8M/post_max_size\ =\ 200M/g' /etc/php5/apache2/p
 RUN sed -i 's/max_execution_time\ =\ 30/max_execution_time\ =\ 3600/g' /etc/php5/apache2/php.ini
 RUN sed -i 's/\;error_log\ =\ syslog/error_log\ =\ syslog/g' /etc/php5/apache2/php.ini
 
-# Install supervisord
-RUN easy_install supervisor
-
 # install envtpl for replace
 RUN pip install envtpl
 
@@ -46,13 +50,10 @@ RUN chmod +x /var/startup.sh
 ENV ALLOW_OVERRIDE **False**
 
 # syslog-ng loggly config
-ADD logentries.conf.tpl /etc/syslog-ng/conf.d/logentries.conf
+ADD logentries.conf.tpl /etc/syslog-ng/conf.d/logentries.conf.tpl
 
 # supervisord config
 ADD supervisord.conf /etc/supervisord.conf
-
-# create log directory for supervisord
-RUN mkdir /var/log/supervisor/
 
 RUN rm -fr /var/www/html
 ADD www/src /var/www/html
