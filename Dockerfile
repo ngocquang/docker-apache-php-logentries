@@ -47,7 +47,7 @@ RUN pip install envtpl
 ADD startup.sh      /var/startup.sh
 RUN chmod +x /var/startup.sh
 
-ENV ALLOW_OVERRIDE **False**
+#ENV ALLOW_OVERRIDE **False**
 
 # syslog-ng loggly config
 ADD logentries.conf.tpl /etc/syslog-ng/conf.d/logentries.conf.tpl

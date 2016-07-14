@@ -56,14 +56,18 @@ envtpl /etc/syslog-ng/conf.d/logentries.conf.tpl
 ## run supervisord
 supervisord
 
-chown www-data:www-data /var/www/html -R
+#chown www-data:www-data /var/www/html -R
 
-if [ "$ALLOW_OVERRIDE" = "**False**" ]; then
-    unset ALLOW_OVERRIDE
-else
+#if [ "$ALLOW_OVERRIDE" = "**False**" ]; then
+#    unset ALLOW_OVERRIDE
+#else
     sed -i "s/AllowOverride None/AllowOverride All/g" /etc/apache2/apache2.conf
     a2enmod rewrite
-fi
+    a2enmod headers
+    a2enmod expires
+#fi
+
+service syslog-ng restart
 
 source /etc/apache2/envvars
 tail -F /var/log/apache2/* &
