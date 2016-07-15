@@ -56,6 +56,9 @@ envtpl /etc/syslog-ng/conf.d/logentries.conf.tpl
 ## run supervisord
 supervisord
 
+# add locale VietNam
+locale-gen vi_VN
+
 #chown www-data:www-data /var/www/html -R
 
 #if [ "$ALLOW_OVERRIDE" = "**False**" ]; then
