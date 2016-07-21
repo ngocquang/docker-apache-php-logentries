@@ -51,7 +51,7 @@ fi
 
 #############################################$
 # Replace environment LOGENTRIES_TOKEN
-envtpl /etc/syslog-ng/conf.d/logentries.conf.tpl
+#envtpl /etc/syslog-ng/conf.d/logentries.conf.tpl
 
 ## run supervisord
 supervisord

@@ -15,6 +15,7 @@ RUN apt-get update && \
         build-essential \
         python-software-properties \
         python-pip \
+        python-setuptools \
         supervisor \
         curl \
         apache2 \
@@ -27,6 +28,8 @@ RUN apt-get update && \
         php-apc && \
     rm -rf /var/lib/apt/lists/* && \
     curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+
 
 RUN /usr/sbin/php5enmod mcrypt
 RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf && \
@@ -52,7 +55,10 @@ RUN chmod +x /var/startup.sh
 #ENV ALLOW_OVERRIDE **False**
 
 # syslog-ng loggly config
-ADD logentries.conf.tpl /etc/syslog-ng/conf.d/logentries.conf.tpl
+#ADD logentries.conf.tpl /etc/syslog-ng/conf.d/logentries.conf.tpl
+RUN wget https://raw.github.com/logentries/le/master/install/linux/logentries_install.sh && sudo bash logentries_install.sh
+RUN sudo le follow /var/log/apache2/error.log --name Error
+RUN sudo le follow /var/messages --name Messages
 
 # supervisord config
 ADD supervisord.conf /etc/supervisord.conf
