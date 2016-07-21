@@ -55,10 +55,11 @@ RUN chmod +x /var/startup.sh
 #ENV ALLOW_OVERRIDE **False**
 
 # syslog-ng loggly config
-#ADD logentries.conf.tpl /etc/syslog-ng/conf.d/logentries.conf.tpl
-RUN wget https://raw.github.com/logentries/le/master/install/linux/logentries_install.sh && sudo bash logentries_install.sh
-RUN sudo le follow /var/log/apache2/error.log --name Error
-RUN sudo le follow /var/messages --name Messages
+ADD logentries.conf.tpl /etc/syslog-ng/conf.d/logentries.conf.tpl
+
+#IF USE host key logentries
+#RUN wget https://raw.github.com/logentries/le/master/install/linux/logentries_install.sh && sudo bash logentries_install.sh
+#ADD tasks.sh.tpl /var/tasks.sh.tpl
 
 # supervisord config
 ADD supervisord.conf /etc/supervisord.conf

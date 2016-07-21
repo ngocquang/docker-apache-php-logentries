@@ -51,7 +51,27 @@ fi
 
 #############################################$
 # Replace environment LOGENTRIES_TOKEN
-#envtpl /etc/syslog-ng/conf.d/logentries.conf.tpl
+envtpl /etc/syslog-ng/conf.d/logentries.conf.tpl
+sed -i "s/log { source(s_src); filter(f_cron);/#log { source(s_src); filter(f_cron);/g" /etc/syslog-ng/syslog-ng.conf
+sed -i "s/log { source(s_src); filter(f_daemon);/#log { source(s_src); filter(f_daemon);/g" /etc/syslog-ng/syslog-ng.conf
+sed -i "s/log { source(s_src); filter(f_kern);/#log { source(s_src); filter(f_kern);/g" /etc/syslog-ng/syslog-ng.conf
+sed -i "s/log { source(s_src); filter(f_lpr);/#log { source(s_src); filter(f_lpr);/g" /etc/syslog-ng/syslog-ng.conf
+sed -i "s/log { source(s_src); filter(f_syslog3);/#log { source(s_src); filter(f_syslog3);/g" /etc/syslog-ng/syslog-ng.conf
+sed -i "s/log { source(s_src); filter(f_user);/#log { source(s_src); filter(f_user);/g" /etc/syslog-ng/syslog-ng.conf
+sed -i "s/log { source(s_src); filter(f_uucp);/#log { source(s_src); filter(f_uucp);/g" /etc/syslog-ng/syslog-ng.conf
+sed -i "s/log { source(s_src); filter(f_mail);/#log { source(s_src); filter(f_mail);/g" /etc/syslog-ng/syslog-ng.conf
+sed -i "s/log { source(s_src); filter(f_news);/#log { source(s_src); filter(f_news);/g" /etc/syslog-ng/syslog-ng.conf
+sed -i "s/log { source(s_src); filter(f_console);/#log { source(s_src); filter(f_console);/g" /etc/syslog-ng/syslog-ng.conf
+sed -i "s/log { source(s_src); filter(f_crit);/#log { source(s_src); filter(f_crit);/g" /etc/syslog-ng/syslog-ng.conf
+sed -i "s/destination(d_xconsole); };/#destination(d_xconsole); };/g" /etc/syslog-ng/syslog-ng.conf
+
+
+service syslog-ng restart
+
+#envtpl /var/tasks.sh.tpl
+#chmod +x /var/tasks.sh
+
+/var/tasks.sh
 
 ## run supervisord
 supervisord
@@ -70,7 +90,6 @@ locale-gen vi_VN
     a2enmod expires
 #fi
 
-service syslog-ng restart
 
 source /etc/apache2/envvars
 tail -F /var/log/apache2/* &
