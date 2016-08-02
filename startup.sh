@@ -81,16 +81,6 @@ locale-gen vi_VN
 
 #chown www-data:www-data /var/www/html -R
 
-#if [ "$ALLOW_OVERRIDE" = "**False**" ]; then
-#    unset ALLOW_OVERRIDE
-#else
-    sed -i "s/AllowOverride None/AllowOverride All/g" /etc/apache2/apache2.conf
-    a2enmod rewrite
-    a2enmod headers
-    a2enmod expires
-#fi
-
-
 source /etc/apache2/envvars
 tail -F /var/log/apache2/* &
 exec apache2 -D FOREGROUND
