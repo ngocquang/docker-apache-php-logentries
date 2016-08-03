@@ -3,7 +3,7 @@ docker-apache-php-logentries
 # Web Server Image for our production container: #
 
 - Apache with Mod_rewrite enable
-- PHP 5.5 with PDO, MySQL, Redis, Memcache Extension
+- PHP 5.6 with PDO, MySQL, Redis, Memcache Extension
 - Supervisord to monitor apache process to prevent failure
 - Logentries
 
@@ -23,7 +23,7 @@ docker-apache-php-logentries
     `
 
 # Docker Hub Repository #
-- You can pull from my image at: https://hub.docker.com/r/voduytuan/docker-apache-php/
+- You can pull from my image at: https://hub.docker.com/r/ngocquang/docker-apache-php-logentries/
     `
     $ > docker pull ngocquang/docker-apache-php-logentries
     `
